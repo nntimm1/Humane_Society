@@ -22,5 +22,16 @@ namespace HumaneSociety.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=FATIMA0F1F\\SQLEXPRESS;Initial Catalog=HumaneSociety;Integrated Securi" +
+            "ty=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False")]
+        public string HumaneSocietyConnectionString {
+            get {
+                return ((string)(this["HumaneSocietyConnectionString"]));
+            }
+        }
     }
 }
