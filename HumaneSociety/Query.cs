@@ -162,12 +162,42 @@ namespace HumaneSociety
 
 
         //// TODO Items: ////
-        
+
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-            throw new NotImplementedException();
-        }
+             
+            // Review ------------------------------------------------------------
+            switch (crudOperation)
+            {
+                case "create":
+                typeof(Admin).GetMethod("AddEmployee", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(new Admin(), null);
+
+
+
+                        = db.Employees.InsertOnSubmit(employee);
+                    break;
+            // Create ------------------------------------------------------------
+                case "delete":
+                
+
+                    break;
+            // Update ------------------------------------------------------------
+                case "read":
+                 
+                    break;
+                // Delete ------------------------------------------------------------
+                case "update":
+                  
+                    break;
+
+
+
+
+
+
+
+            }
 
         // TODO: Animal CRUD Operations
         internal static void AddAnimal(Animal animal)
