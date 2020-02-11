@@ -165,7 +165,7 @@ namespace HumaneSociety
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-           // Create ------------------------------------------------------------
+            // Create ------------------------------------------------------------
             switch (crudOperation)
             {
                 case "create":
@@ -193,7 +193,8 @@ namespace HumaneSociety
         // TODO: Animal CRUD Operations
         internal static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         internal static Animal GetAnimalByID(int id)
@@ -202,8 +203,47 @@ namespace HumaneSociety
         }
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
-        {            
-            throw new NotImplementedException();
+        {
+            db.Animals.Where(a => a.AnimalId == a.AnimalId).FirstOrDefault();
+            foreach (KeyValuePair<int, string> pair in updates) {
+                switch (pair.Key)
+                {
+                    case 1:
+                        db.Animals.Where(a => a.CategoryId == a.CategoryId).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 2:
+                        db.Animals.Where(a => a.Name == a.Name).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 3:
+                        db.Animals.Where(a => a.Age == a.Age).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 4:
+                        db.Animals.Where(a => a.Demeanor == a.Demeanor).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 5:
+                        db.Animals.Where(a => a.KidFriendly == a.KidFriendly).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 6:
+                        db.Animals.Where(a => a.PetFriendly == a.PetFriendly).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 7:
+                        db.Animals.Where(a => a.Weight == a.Weight).FirstOrDefault();
+                        db.SubmitChanges();
+                        break;
+                    case 8:
+                        Console.WriteLine("Finished");
+                        break;
+                    default:
+                        Console.WriteLine("Not a valid entry");
+                        break;
+                }
+            }
         }
 
         internal static void RemoveAnimal(Animal animal)

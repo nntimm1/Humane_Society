@@ -26,7 +26,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Animal", "3. Check Animal Status",  "4. Approve Adoption" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -212,7 +212,7 @@ namespace HumaneSociety
 
         private IQueryable<Animal> SearchForAnimal(int iD)
         {
-            HumaneSocietyDataContext context = new HumaneSocietyDataContext();
+            HumaneSociertyDataContext context = new HumaneSociertyDataContext();
             var animals = (from animal in context.Animals where animal.AnimalId == iD select animal);
             return animals;
         }       
@@ -279,7 +279,6 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions("Employee not found, please try again, create a new user or contact your administrator");
                 LogIn();
             }
-            
         }
         private void CreateNewEmployee()
         {
