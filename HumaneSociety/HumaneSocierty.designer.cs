@@ -2159,7 +2159,12 @@ namespace HumaneSociety
 			this.SendPropertyChanging();
 			entity.Employee = null;
 		}
-	}
+
+        public static implicit operator object(Employee v)
+        {
+            throw new NotImplementedException();
+        }
+    }
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Rooms")]
 	public partial class Room : INotifyPropertyChanging, INotifyPropertyChanged
