@@ -255,15 +255,25 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
-        }
+            var result = db.Animals.ToList();
+            result.RemoveAll(u => u != ) //remove what I'm not looking for//
+
+            foreach (KeyValuePair<int, string> pair in updates)
+            {
+                switch (pair.Key)
+                {
+                    case 1:
+                        db.Animals.
+                }
+            }
+            }
          
         // TODO: Misc Animal Things
         internal static int GetCategoryId(string categoryName)
         {
             var result = db.Categories.Where(c => c.Name == categoryName).First();
             var categoryIDs = db.Categories.Where(d => d == result);
-            return categoryIDs;
+            return int.Parse(categoryIDs);
         }
         
         internal static Room GetRoom(int animalId)
