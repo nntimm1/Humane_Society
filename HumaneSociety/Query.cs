@@ -311,12 +311,17 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            var result = db.Adoptions.Where(a => a.Animal == animal).ToList();
+            var result2 = db.Adoptions.Where(b => b.Client == client).ToList();
+            db.Adoptions.First(i => i == result[0]);
+            db.Adoptions.First(j => j == result2[0]);
+            db.SubmitChanges();
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            var result = db.Adoptions.Where(a => a.ApprovalStatus == "pending");
+            return result;
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
@@ -336,7 +341,8 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            var result = db.Animals.Where(a => a == animal);
+            return result;
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
