@@ -204,36 +204,36 @@ namespace HumaneSociety
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
         {
-            db.Animals.Where(a => a.AnimalId == a.AnimalId).FirstOrDefault();
-            foreach (KeyValuePair<int, string> pair in updates) {
+            db.Animals.Where(a => a.AnimalId == animalId).FirstOrDefault();
+            foreach (KeyValuePair<int, string> pair in updates) 
+            {
                 switch (pair.Key)
                 {
                     case 1:
-                        db.Animals.Where(a => a.CategoryId == a.CategoryId).FirstOrDefault();
-                        db.SubmitChanges();
+                        db.Animals.Where(a => a.CategoryId.ToString() == pair.Value);
                         break;
                     case 2:
-                        db.Animals.Where(a => a.Name == a.Name).FirstOrDefault();
+                        db.Animals.Where(a => a.Name == pair.Value);
                         db.SubmitChanges();
                         break;
                     case 3:
-                        db.Animals.Where(a => a.Age == a.Age).FirstOrDefault();
+                        db.Animals.Where(a => a.Age.ToString() == pair.Value);
                         db.SubmitChanges();
                         break;
                     case 4:
-                        db.Animals.Where(a => a.Demeanor == a.Demeanor).FirstOrDefault();
+                        db.Animals.Where(a => a.Demeanor == pair.Value);
                         db.SubmitChanges();
                         break;
                     case 5:
-                        db.Animals.Where(a => a.KidFriendly == a.KidFriendly).FirstOrDefault();
+                        db.Animals.Where(a => a.KidFriendly.ToString() == pair.Value);
                         db.SubmitChanges();
                         break;
                     case 6:
-                        db.Animals.Where(a => a.PetFriendly == a.PetFriendly).FirstOrDefault();
+                        db.Animals.Where(a => a.PetFriendly.ToString() == pair.Value);
                         db.SubmitChanges();
                         break;
                     case 7:
-                        db.Animals.Where(a => a.Weight == a.Weight).FirstOrDefault();
+                        db.Animals.Where(a => a.Weight.ToString() == pair.Value);
                         db.SubmitChanges();
                         break;
                     case 8:
@@ -251,39 +251,59 @@ namespace HumaneSociety
             db.Animals.DeleteOnSubmit(animal);
             db.SubmitChanges();
         }
-        
+
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
             var result = db.Animals.ToList();
-            result.RemoveAll(u => u != ) //remove what I'm not looking for//
+            //remove what I'm NOT looking for//
 
             foreach (KeyValuePair<int, string> pair in updates)
             {
                 switch (pair.Key)
                 {
                     case 1:
-                        db.Animals.
+                        return db.Animals.Where(a => a.Category.Name == pair.Value);
+                    case 2:
+                        return db.Animals.Where(a => a.Name == pair.Value);
+                    case 3:
+                        return db.Animals.Where(a => a.Age.ToString() == pair.Value);
+                    case 4:
+                        return db.Animals.Where(a => a.Demeanor == pair.Value);
+                    case 5:
+                        return db.Animals.Where(a => a.KidFriendly.ToString() == pair.Value);
+                    case 6:
+                        return db.Animals.Where(a => a.PetFriendly.ToString() == pair.Value);
+                    case 7:
+                        return db.Animals.Where(a => a.KidFriendly.ToString() == pair.Value);
+                    case 8:
+                        return db.Animals.Where(a => a.Weight.ToString() == pair.Value);
+                    case 9:
+                        return db.Animals.Where(a => a.AnimalId.ToString() == pair.Value);
+                    default:
+                        Console.WriteLine("finished");
+                        break;
                 }
             }
-            }
+            return 
+        }    
          
         // TODO: Misc Animal Things
         internal static int GetCategoryId(string categoryName)
         {
-            var result = db.Categories.Where(c => c.Name == categoryName).First();
-            var categoryIDs = db.Categories.Where(d => d == result);
-            return int.Parse(categoryIDs);
+            var result = db.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
+            return result.CategoryId;
         }
         
         internal static Room GetRoom(int animalId)
         {
-            return db.Rooms.First(r => r.AnimalId == (animalId));
+            return db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
         }
         
         internal static int GetDietPlanId(string dietPlanName)
         {
-            return db.DietPlans.First(d => d.DietPlanId == dietPlanName);
+            var result = db.DietPlans.Where(d => d.Name == dietPlanName).FirstOrDefault();
+            return result.DietPlanId;
         }
 
         // TODO: Adoption CRUD Operations
