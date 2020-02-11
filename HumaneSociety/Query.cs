@@ -249,6 +249,8 @@ namespace HumaneSociety
         internal static void RemoveAnimal(Animal animal)
         {
             db.Animals.DeleteOnSubmit(animal);
+            var animalIDResult = db.Animals.Where(a => a == animal).FirstOrDefault();
+            
             db.SubmitChanges();
         }
 
@@ -319,12 +321,16 @@ namespace HumaneSociety
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
-            throw new NotImplementedException();
+            db.Adoptions.InsertOnSubmit(adoption);
+            db.SubmitChanges();
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            throw new NotImplementedException();
+            var result = db.Adoptions.Where(a => a.ClientId == clientId).ToList();
+            var result2 = db.Adoptions.Where(a => a.ClientId == clientId).ToList();
+            db.Adoptions.DeleteOnSubmit(result[0]);
+            db.Adoptions.DeleteOnSubmit(result2[0]);
         }
 
         // TODO: Shots Stuff
@@ -335,7 +341,9 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            throw new NotImplementedException();
+            db.Shots.Where(a => a == shotName);
+            db.Shots.Where(b => b == animal);
+
         }
     }
 }
