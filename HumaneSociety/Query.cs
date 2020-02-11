@@ -169,19 +169,23 @@ namespace HumaneSociety
             switch (crudOperation)
             {
                 case "create":
-
                     db.Employees.InsertOnSubmit(employee);
                     db.SubmitChanges();
-
                     break;
             // Delete ------------------------------------------------------------
                 case "delete":
+                    db.Employees.DeleteOnSubmit(employee);
+                    db.SubmitChanges();
                     break;
             // Read ------------------------------------------------------------
                 case "read":
+                    db.Employees.First(i => i == employee);
                     break;
+          
             // Update ------------------------------------------------------------
                 case "update":
+                    db.Employees.First(i => i == employee);
+                    db.SubmitChanges();
                     break;
             }
         }
