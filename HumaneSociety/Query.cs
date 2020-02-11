@@ -171,11 +171,9 @@ namespace HumaneSociety
             switch (crudOperation)
             {
                 case "create":
-                typeof(Admin).GetMethod("AddEmployee", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(new Admin(), null);
-
-
-
-                        = db.Employees.InsertOnSubmit(employee);
+                    
+                Employee     = db.Employees.InsertOnSubmit(employee);
+                    
                     break;
             // Create ------------------------------------------------------------
                 case "delete":
