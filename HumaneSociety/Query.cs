@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 namespace HumaneSociety
 {
     public static class Query
-    {        
-        static HumaneSocietyDataContext db;
+    {
+        static HumaneSociertyDataContext db;
 
         static Query()
         {
-            db = new HumaneSocietyDataContext();
+            db = new HumaneSociertyDataContext();
         }
 
         internal static List<USState> GetStates()
         {
-            List<USState> allStates = db.USStates.ToList();       
+            List<USState> allStates = db.USStates.ToList();
 
             return allStates;
         }
-            
+
         internal static Client GetClient(string userName, string password)
         {
             Client client = db.Clients.Where(c => c.UserName == userName && c.Password == password).Single();
@@ -55,7 +55,7 @@ namespace HumaneSociety
                 newAddress.AddressLine1 = streetAddress;
                 newAddress.City = null;
                 newAddress.USStateId = stateId;
-                newAddress.Zipcode = zipCode;                
+                newAddress.Zipcode = zipCode;
 
                 db.Addresses.InsertOnSubmit(newAddress);
                 db.SubmitChanges();
@@ -80,13 +80,13 @@ namespace HumaneSociety
             {
                 clientFromDb = db.Clients.Where(c => c.ClientId == clientWithUpdates.ClientId).Single();
             }
-            catch(InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 Console.WriteLine("No clients have a ClientId that matches the Client passed in.");
                 Console.WriteLine("No update have been made.");
                 return;
             }
-            
+
             // update clientFromDb information with the values on clientWithUpdates (aside from address)
             clientFromDb.FirstName = clientWithUpdates.FirstName;
             clientFromDb.LastName = clientWithUpdates.LastName;
@@ -101,13 +101,13 @@ namespace HumaneSociety
             Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
 
             // if the address isn't found in the Db, create and insert it
-            if(updatedAddress == null)
+            if (updatedAddress == null)
             {
                 Address newAddress = new Address();
                 newAddress.AddressLine1 = clientAddress.AddressLine1;
                 newAddress.City = null;
                 newAddress.USStateId = clientAddress.USStateId;
-                newAddress.Zipcode = clientAddress.Zipcode;                
+                newAddress.Zipcode = clientAddress.Zipcode;
 
                 db.Addresses.InsertOnSubmit(newAddress);
                 db.SubmitChanges();
@@ -117,11 +117,11 @@ namespace HumaneSociety
 
             // attach AddressId to clientFromDb.AddressId
             clientFromDb.AddressId = updatedAddress.AddressId;
-            
+
             // submit changes
             db.SubmitChanges();
         }
-        
+
         internal static void AddUsernameAndPassword(Employee employee)
         {
             Employee employeeFromDb = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
@@ -160,42 +160,31 @@ namespace HumaneSociety
             return employeeWithUserName == null;
         }
 
-
         //// TODO Items: ////
 
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-             
-            // Review ------------------------------------------------------------
+           // Create ------------------------------------------------------------
             switch (crudOperation)
             {
                 case "create":
-                    
-                Employee     = db.Employees.InsertOnSubmit(employee);
-                    
-                    break;
-            // Create ------------------------------------------------------------
-                case "delete":
-                
 
+                    db.Employees.InsertOnSubmit(employee);
+                    db.SubmitChanges();
+
+                    break;
+            // Delete ------------------------------------------------------------
+                case "delete":
+                    break;
+            // Read ------------------------------------------------------------
+                case "read":
                     break;
             // Update ------------------------------------------------------------
-                case "read":
-                 
-                    break;
-                // Delete ------------------------------------------------------------
                 case "update":
-                  
                     break;
-
-
-
-
-
-
-
             }
+        }
 
         // TODO: Animal CRUD Operations
         internal static void AddAnimal(Animal animal)
