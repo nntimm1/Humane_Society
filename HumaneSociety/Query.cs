@@ -261,9 +261,8 @@ namespace HumaneSociety
         // TODO: Misc Animal Things
         internal static int GetCategoryId(string categoryName)
         {
-            var result = db.Categories.Where(c => c.Name == categoryName).First();
-            var categoryIDs = db.Categories.Where(d => d == result);
-            return categoryIDs;
+            var result = db.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
+            return result.CategoryId;
         }
         
         internal static Room GetRoom(int animalId)
@@ -273,7 +272,8 @@ namespace HumaneSociety
         
         internal static int GetDietPlanId(string dietPlanName)
         {
-            return db.DietPlans.First(d => d.DietPlanId == dietPlanName);
+            var result = db.DietPlans.Where(d => d.Name == dietPlanName).FirstOrDefault();
+            return result.DietPlanId;
         }
 
         // TODO: Adoption CRUD Operations
