@@ -179,7 +179,7 @@ namespace HumaneSociety
                     break;
             // Read ------------------------------------------------------------
                 case "read":
-                    db.Employees.First(i => i == employee);
+                    db.Employees.Select(i => i == employee);
                     break;
           
             // Update ------------------------------------------------------------
@@ -287,7 +287,7 @@ namespace HumaneSociety
                         break;
                 }
             }
-            return 
+            return db.Animals;
         }    
          
         // TODO: Misc Animal Things
@@ -311,11 +311,12 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            var result = db.Adoptions.Where(a => a.Animal == animal).ToList();
-            var result2 = db.Adoptions.Where(b => b.Client == client).ToList();
-            db.Adoptions.First(i => i == result[0]);
-            db.Adoptions.First(j => j == result2[0]);
-            db.SubmitChanges();
+            Adoption adoption = new Adoption();
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ClientId = client.ClientId;
+            adoption.ApprovalStatus = "currently pending";
+            adoption.AdoptionFee = 25;
+            adoption.PaymentCollected = false;
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
@@ -341,15 +342,17 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            var result = db.Animals.Where(a => a == animal);
+            var result = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
             return result;
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            db.Shots.Where(a => a == shotName);
-            db.Shots.Where(b => b == animal);
+            AnimalShot newShot = new AnimalShot();
 
+            var shot = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).Single();
+            newShot.ShotId = shot;
+            newShot.AnimalId = animal.AnimalId;
         }
     }
 }
