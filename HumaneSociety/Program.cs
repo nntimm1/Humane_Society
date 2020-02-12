@@ -10,7 +10,11 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
-            PointOfEntry.Run();
+            //PointOfEntry.Run();
+            Query query = new Query();
+            query.RunEmployeeQueries();
+
+            
         }
     }
 }

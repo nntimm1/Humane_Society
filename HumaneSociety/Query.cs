@@ -181,10 +181,9 @@ namespace HumaneSociety
                 case "read":
                     db.Employees.Select(i => i == employee);
                     break;
-          
             // Update ------------------------------------------------------------
                 case "update":
-                    db.Employees.First(i => i == employee);
+                    db.Employees.InsertOnSubmit(employee);
                     db.SubmitChanges();
                     break;
             }
@@ -204,7 +203,7 @@ namespace HumaneSociety
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
         {
-            db.Animals.Where(a => a.AnimalId == animalId).FirstOrDefault();
+            var getAnimalId = GetAnimalByID(animalId);
             foreach (KeyValuePair<int, string> pair in updates) 
             {
                 switch (pair.Key)
@@ -257,9 +256,7 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            var result = db.Animals.ToList();
-            //remove what I'm NOT looking for//
-
+            var result = db.Animals;
             foreach (KeyValuePair<int, string> pair in updates)
             {
                 switch (pair.Key)
@@ -319,7 +316,7 @@ namespace HumaneSociety
             adoption.PaymentCollected = false;
         }
 
-        internal static IQueryable<Adoption> GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions() //READ SOMETHING - GIVE INFORMATION//
         {
             var result = db.Adoptions.Where(a => a.ApprovalStatus == "pending");
             return result;
@@ -334,7 +331,7 @@ namespace HumaneSociety
         internal static void RemoveAdoption(int animalId, int clientId)
         {
             var result = db.Adoptions.Where(a => a.ClientId == clientId).ToList();
-            var result2 = db.Adoptions.Where(a => a.ClientId == clientId).ToList();
+            var result2 = db.Adoptions.Where(a => a.AnimalId == animalId).ToList();
             db.Adoptions.DeleteOnSubmit(result[0]);
             db.Adoptions.DeleteOnSubmit(result2[0]);
         }
