@@ -179,12 +179,12 @@ namespace HumaneSociety
                     break;
             // Read ------------------------------------------------------------
                 case "read":
-                    db.Employees.First(i => i == employee);
+                    db.Employees.Select(e => e == employee);
                     break;
           
             // Update ------------------------------------------------------------
                 case "update":
-                    db.Employees.First(i => i == employee);
+                    db.Employees.InsertOnSubmit(employee);
                     db.SubmitChanges();
                     break;
             }
@@ -204,7 +204,7 @@ namespace HumaneSociety
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
         {
-            db.Animals.Where(a => a.AnimalId == animalId).FirstOrDefault();
+            var getAnimalId = GetAnimalByID(animalId);
             foreach (KeyValuePair<int, string> pair in updates) 
             {
                 switch (pair.Key)
@@ -287,7 +287,7 @@ namespace HumaneSociety
                         break;
                 }
             }
-            return 
+            return db.Animals;
         }    
          
         // TODO: Misc Animal Things
@@ -311,12 +311,19 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            Adoption adoption = new Adoption();
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ClientId = client.ClientId;
+            adoption.ApprovalStatus = "currently pending";
+            adoption.AdoptionFee = 25;
+            adoption.PaymentCollected = false;
+
         }
 
-        internal static IQueryable<Adoption> GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions() //READ SOMETHING - GIVE INFORMATION//
         {
-            throw new NotImplementedException();
+            var result = db.Adoptions.Where(a => a.ApprovalStatus == "pending");
+            return result;
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
@@ -328,7 +335,7 @@ namespace HumaneSociety
         internal static void RemoveAdoption(int animalId, int clientId)
         {
             var result = db.Adoptions.Where(a => a.ClientId == clientId).ToList();
-            var result2 = db.Adoptions.Where(a => a.ClientId == clientId).ToList();
+            var result2 = db.Adoptions.Where(a => a.AnimalId == animalId).ToList();
             db.Adoptions.DeleteOnSubmit(result[0]);
             db.Adoptions.DeleteOnSubmit(result2[0]);
         }
@@ -336,14 +343,17 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            var shots = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId);
+            return shots;
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            db.Shots.Where(a => a == shotName);
-            db.Shots.Where(b => b == animal);
+            AnimalShot newShot = new AnimalShot();
 
+            var shot = db.Shots.Where(s => s.Name == shotName).Select(s => s.ShotId).Single();
+            newShot.ShotId = shot;
+            newShot.AnimalId = animal.AnimalId;
         }
     }
 }
