@@ -257,9 +257,7 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            var result = db.Animals.ToList();
-            //remove what I'm NOT looking for//
-
+            var result = db.Animals;
             foreach (KeyValuePair<int, string> pair in updates)
             {
                 switch (pair.Key)
@@ -317,7 +315,6 @@ namespace HumaneSociety
             adoption.ApprovalStatus = "currently pending";
             adoption.AdoptionFee = 25;
             adoption.PaymentCollected = false;
-
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions() //READ SOMETHING - GIVE INFORMATION//
